@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-
+from collections import OrderedDict
 
 class TypeForm:
     """
@@ -17,7 +17,7 @@ class TypeForm:
         Returns a dictionary of the form {questionToken: Question Text}
         A question token is a unique key for the question
         """
-        questions_dict = {}
+        questions_dict = OrderedDict()
         questions = self.json["questions"]
         for question in questions:
             questions_dict[question["id"]] = question
@@ -28,7 +28,7 @@ class TypeForm:
         Returns a dictionary of the form {questionToken: Question Text}
         A question token is a unique key for the question
         """
-        questions_dict = {}
+        questions_dict = OrderedDict()
         questions = self.json["questions"]
         for question in questions:
             questions_dict[question["id"]] = question['question']
@@ -47,7 +47,7 @@ class TypeForm:
         {responseToken: {questionToken: answerString....}}
         Parameters: untilTime - a datetime object
         """
-        answer = {}
+        answer = OrderedDict()
         responses = self.json["responses"]
         for response in responses:
             if response["completed"] == "1" \
