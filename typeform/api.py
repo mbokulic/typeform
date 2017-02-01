@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import requests
+import urllib
+import json
 from .form import TypeForm
 
 
@@ -27,6 +29,18 @@ class TypeFormAPI:
         status_code = response.status_code
         if status_code == 200 and response.url != self.redirect_url:
             return TypeForm(response.json())
+        else:
+            self.raise_error(status_code)
+
+    def get_form_list(self):
+        api_url = 'https://api.typeform.com/v1/forms?key={}'.format(
+            self.API_KEY)
+        response = requests.get(api_url)
+        status_code = response.status_code
+        if(status_code == 200 and response.url != self.redirect_url):
+            json_str = response.content.decode('utf8')
+            form_list = json.loads(json_str)
+            return(form_list)
         else:
             self.raise_error(status_code)
 
