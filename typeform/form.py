@@ -14,15 +14,22 @@ class TypeForm:
 
     def get_questions(self):
         """
-        Returns an Ordered Dictionary of the form
-        {questionToken: question dictionary}
-        A question token is a unique key for the question
+        returns the raw questions output from typeform API
+        :returns: a list of dicts that represent questions for this typeform
+
         """
-        questions_dict = OrderedDict()
         questions = self.json["questions"]
-        for question in questions:
-            questions_dict[question["id"]] = question
-        return questions_dict
+        # for question in questions:
+        #     questions_dict[question["id"]] = question
+        return questions
+
+    def get_transformed_questions(self):
+        '''
+        returns the formatted questions output from typeform API
+        :returns: a list of dicts that represent questions for this typeform
+        '''
+        pass
+
 
     def get_questions_texts(self):
         """
