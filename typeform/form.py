@@ -2,6 +2,8 @@
 
 from datetime import datetime
 from collections import OrderedDict
+import copy
+
 
 class TypeForm:
     """
@@ -18,18 +20,10 @@ class TypeForm:
         :returns: a list of dicts that represent questions for this typeform
 
         """
-        questions = self.data["questions"]
+        # using deepcopy since I don't want the changes to the returned
+        # object to change self.data
+        questions = copy.deepcopy(self.data["questions"])
         return questions
-
-    def get_transformed_questions(self):
-        '''
-        returns the formatted questions output from typeform API
-        :returns: a list of dicts that represent questions for this typeform
-        '''
-        pass
-        questions = self.get_questions
-
-
 
     def get_questions_texts(self):
         """
