@@ -9,8 +9,10 @@ class TypeForm:
     Instatiated through typeform object
     """
 
-    def __init__(self, json):
-        self.json = json
+    def __init__(self, data):
+        self.data = data
+        import pdb
+        pdb.set_trace()
 
     def get_questions(self):
         """
@@ -18,7 +20,7 @@ class TypeForm:
         :returns: a list of dicts that represent questions for this typeform
 
         """
-        questions = self.json["questions"]
+        questions = self.data["questions"]
         return questions
 
     def get_transformed_questions(self):
@@ -27,6 +29,8 @@ class TypeForm:
         :returns: a list of dicts that represent questions for this typeform
         '''
         pass
+        questions = self.get_questions
+
 
 
     def get_questions_texts(self):
@@ -35,7 +39,7 @@ class TypeForm:
         A question token is a unique key for the question
         """
         questions_dict = OrderedDict()
-        questions = self.json["questions"]
+        questions = self.data["questions"]
         for question in questions:
             questions_dict[question["id"]] = question['question']
         return questions_dict
@@ -54,7 +58,7 @@ class TypeForm:
         Parameters: untilTime - a datetime object
         """
         answer = OrderedDict()
-        responses = self.json["responses"]
+        responses = self.data["responses"]
         for response in responses:
             if response["completed"] == "1" \
                     and datetime.strptime(
