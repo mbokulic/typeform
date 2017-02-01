@@ -14,7 +14,8 @@ class TypeForm:
 
     def get_questions(self):
         """
-        Returns a dictionary of the form {questionToken: Question Text}
+        Returns an Ordered Dictionary of the form
+        {questionToken: question dictionary}
         A question token is a unique key for the question
         """
         questions_dict = OrderedDict()

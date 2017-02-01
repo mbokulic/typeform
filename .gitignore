@@ -10,3 +10,5 @@ for funniest:
 /*.egg-info
 
 printTests.py
+typeform/config.py
+to_do.md
