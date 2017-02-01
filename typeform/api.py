@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import requests
-
 from .form import TypeForm
 
 
@@ -13,6 +12,7 @@ class TypeFormAPI:
 
     def __init__(self, api_key):
         self.API_KEY = api_key
+        self.redirect_url = "https://api.typeform.com/login/"
 
     def get_form(self, form_key):
         """
@@ -25,10 +25,20 @@ class TypeFormAPI:
             form_key, self.API_KEY)
         response = requests.get(api_url)
         status_code = response.status_code
-        redirect_url = "https://api.typeform.com/login/"
-        if status_code == 200 and response.url != redirect_url:
+        if status_code == 200 and response.url != self.redirect_url:
             return TypeForm(response.json())
-        elif status_code == 404:
-            raise ValueError("404 Not Found - Check Form Key")
         else:
-            raise ValueError("404 Not Found - Check API_KEY")
+            self.raise_error(status_code)
+
+    def raise_error(self, status_code):
+        if(status_code == 400):
+            raise ValueError('API call error: invalid date in query')
+        elif(status_code == 403):
+            raise ValueError('API call error: expired or invalid token')
+        elif(status_code == 404):
+            raise ValueError('API call error: invalid typeform ID')
+        elif(status_code == 429):
+            raise ValueError('API call error: request limit reached')
+        else:
+            raise ValueError('API call error: unknown status code {}'.format(
+                str(status_code)))
