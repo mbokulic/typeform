@@ -33,6 +33,11 @@ class TypeFormAPI:
             self.raise_error(status_code)
 
     def get_form_list(self):
+        '''
+        returns the forms available for this self.API_KEY
+        :returns: list of dictionaries with keys "name" and "id"
+        '''
+
         api_url = 'https://api.typeform.com/v1/forms?key={}'.format(
             self.API_KEY)
         response = requests.get(api_url)
@@ -43,6 +48,27 @@ class TypeFormAPI:
             return(form_list)
         else:
             self.raise_error(status_code)
+
+    def print_form_list(self):
+        '''
+        prints a formatted list of form names and IDs
+        that are available for this self.API_KEY
+        '''
+        form_list = self.get_form_list()
+
+        id_length = 6  # form IDs have 6 chars
+        max_length_name = 30  # names longer than this will be truncated
+
+        truncate = '{:.' + str(max_length_name) + '}'
+        pad = '{:' + str(max_length_name) + '}'
+
+        print(pad.format('NAME') + ' | ' + 'ID')
+        print('-' * (id_length + max_length_name + 3))
+
+        for form in form_list:
+            formatted = truncate.format(form['name'])
+            formatted = pad.format(formatted)
+            print(formatted + ' | ' + form['id'])
 
     def raise_error(self, status_code):
         if(status_code == 400):
