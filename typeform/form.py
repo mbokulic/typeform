@@ -11,8 +11,6 @@ class TypeForm:
 
     def __init__(self, data):
         self.data = data
-        import pdb
-        pdb.set_trace()
 
     def get_questions(self):
         """
