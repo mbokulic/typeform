@@ -19,8 +19,6 @@ class TypeForm:
 
         """
         questions = self.json["questions"]
-        # for question in questions:
-        #     questions_dict[question["id"]] = question
         return questions
 
     def get_transformed_questions(self):
