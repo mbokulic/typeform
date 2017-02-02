@@ -95,3 +95,13 @@ def clean_question_text(html):
     # removes html tags
     clean = re.sub('<.*?>', '', clean)
     return(clean)
+
+
+def questions_to_markdown(questions):
+    questions = transform_questions(questions)
+    md_list = []
+    for q in questions:
+        md_list.append(' '.join(['#', q['id']]))
+        md_list.append(q['question'] + '\n')
+    md_string = '\n'.join(md_list)
+    return(md_string)
