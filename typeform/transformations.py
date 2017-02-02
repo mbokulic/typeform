@@ -1,6 +1,7 @@
 from . import config
 from string import ascii_letters
 import re
+import unicodedata
 
 TYPE_PREFIXES = {
     'group': 'g',
@@ -26,6 +27,7 @@ def transform_questions(questions):
 
         q = questions.pop(0)
         q['typeform_id'] = q['id']
+        q['question'] = clean_question_text(q['question'])
         q['type'] = parse_question_type(q['typeform_id'])
 
         suffix = ''
@@ -80,3 +82,13 @@ def parse_question_type(id_string):
         else:
             type = 'choice(single answer)'
     return type
+
+
+def clean_question_text(html):
+    # removes unicode codes like \xa0
+    clean = unicodedata.normalize('NFKD', html)
+    # replaces <br> with line breaks
+    clean = re.sub('<br ?/>', '\n', clean)
+    # removes html tags
+    clean = re.sub('<.*?>', '', clean)
+    return(clean)
