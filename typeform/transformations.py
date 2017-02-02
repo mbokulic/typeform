@@ -2,6 +2,7 @@ from . import config
 from string import ascii_letters
 import re
 import unicodedata
+import copy
 
 TYPE_PREFIXES = {
     'group': 'g',
@@ -20,12 +21,14 @@ def transform_questions(questions):
     choice_id = ''
     letters = list(ascii_letters)
 
+    questions = copy.deepcopy(questions)
     result = []
-    while len(questions) > 0:
+
+    for q_idx in range(len(questions)):
         increment_counter = True
         append_question = True
 
-        q = questions.pop(0)
+        q = questions[q_idx]
         q['typeform_id'] = q['id']
         q['question'] = clean_question_text(q['question'])
         q['type'] = parse_question_type(q['typeform_id'])
@@ -54,7 +57,7 @@ def transform_questions(questions):
 
         if(increment_counter):
             idx += 1
-        q['id'] = get_id_string(idx, q['type'], suffix)
+        q['id'] = create_question_id(idx, q['type'], suffix)
 
         if(append_question):
             result.append(q)
@@ -62,7 +65,7 @@ def transform_questions(questions):
     return result
 
 
-def get_id_string(idx, type, suffix=''):
+def create_question_id(idx, type, suffix=''):
     if(type in TYPE_PREFIXES.keys()):
         prefix = TYPE_PREFIXES[type]
     else:
