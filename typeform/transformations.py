@@ -78,12 +78,16 @@ def create_question_id(idx, type, suffix=''):
 def parse_question_type(id_string):
     match = re.search('[A-z]+', id_string)
     type = id_string[match.start():match.end() - 1]
+    if(type in config.ALT_TYPES.keys()):
+        type = config.ALT_TYPES[type]
     if(type == 'list'):
-        match = re.search('choice_[0-9]+', id_string)
-        if(match):
-            type = 'choice(multiple answers)'
-        else:
-            type = 'choice(single answer)'
+        if('list_multiple' in config.ALT_TYPES.keys() and
+           'list_single' in config.ALT_TYPES.keys()):
+            match = re.search('choice_[0-9]+', id_string)
+            if(match):
+                type = config.ALT_TYPES['list_multiple']
+            else:
+                type = config.ALT_TYPES['list_single']
     return type
 
 
